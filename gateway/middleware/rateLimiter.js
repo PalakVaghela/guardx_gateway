@@ -8,11 +8,13 @@ module.exports = (req, res, next) => {
 
     const now = Date.now();
     const WINDOW_SIZE = 60 * 1000; // 60 sec
-    const MAX_REQUESTS = req.user.plan == 'pro' ? 20 : 5;
+    const MAX_REQUESTS = req.user.plan == 'pro' ? 20 : 1000;
 
     if (!requestsMap.has(key)) {
     requestsMap.set(key, []);
     }
+
+    
 
     let timestamps = requestsMap.get(key);
     console.log(timestamps, "timestamps");
@@ -38,7 +40,7 @@ module.exports = (req, res, next) => {
     timestamps.push(now);
     requestsMap.set(key, timestamps);
     console.log(timestamps, "******************#####*************");
-
+    req.timestamps = timestamps
     next();
 };
 // first of all array will be check if size is < 5 then all push. so 5th req will push and after that block every other reqs.

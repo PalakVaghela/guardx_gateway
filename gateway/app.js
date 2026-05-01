@@ -3,7 +3,9 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 // Client → MY Gateway(my port of guarx) → Another Serverhich is actual port(Target API).
 const routesConfig = require('./config/rules.json');
 const rateLimiter = require('./middleware/rateLimiter')
-const auth = require('./middleware/auth')
+const auth = require('./middleware/auth');
+const quotaChecker = require('./middleware/quotaChecker');
+const anomalyDetector = require('./middleware/anomalyDetector');
 
 const app = express();
 const PORT = 3000;
@@ -21,6 +23,9 @@ app.get('/health', (req, res) => res.send('Gateway is health'));
 // ratelimiter middlewere
 app.use('/api', auth)
 app.use('/api', rateLimiter)
+app.use('/api', quotaChecker)
+app.use('/api', anomalyDetector)
+
 // Dynamic Proxy Logic (final endpoint lead to main port)
 routesConfig.routes.forEach(route => {
     console.log(`Loading route: ${route.path} -> ${route.target}`);
