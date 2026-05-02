@@ -5,7 +5,6 @@ const routesConfig = require('./config/rules.json');
 const rateLimiter = require('./middleware/rateLimiter')
 const auth = require('./middleware/auth');
 const quotaChecker = require('./middleware/quotaChecker');
-const anomalyDetector = require('./middleware/anomalyDetector');
 
 const app = express();
 const PORT = 3000;
@@ -24,7 +23,7 @@ app.get('/health', (req, res) => res.send('Gateway is health'));
 app.use('/api', auth)
 app.use('/api', rateLimiter)
 app.use('/api', quotaChecker)
-app.use('/api', anomalyDetector)
+// app.use('/api', anomalyDetector)
 
 // Dynamic Proxy Logic (final endpoint lead to main port)
 routesConfig.routes.forEach(route => {

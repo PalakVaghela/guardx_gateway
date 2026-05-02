@@ -1,42 +1,52 @@
-const botMap = new Map();
+const store = require('../storage')
 
 module.exports = (req, res, next) => {
-    const timestamps = req.timestamps;
-    console.log("inside anomaly detector11111111111");
-    console.log(timestamps, "/////////////");
-
-    if (!timestamps || timestamps.length < 5) {
-        console.log("will not work");
-        
-        return next(); // not enough data
-    }
+    const key = req.storeKey;
+    const timestamps = store.get(key);
+    const window = timestamps.slice(-20);
+    console.log(key, "key   from   anomaly");
     
-    // calculate intervals
+    if (window.length < 6) return next();
+    console.log(key, "keyyyeyeye");
+    console.log(timestamps, "time stamps ");
+    
     let intervals = [];
-    console.log(intervals, "interval before######");
+    console.log(intervals, "interval before  anomaly");
     
-
-    for (let i = 1; i < timestamps.length; i++) {
-        intervals.push(timestamps[i] - timestamps[i - 1]);
+    for (let i = 1; i < window.length; i++) {
+        intervals.push(window[i] - window[i - 1]);
     }
-    console.log(intervals, "###############interval after");
+    console.log(intervals, "interaval from anomaly");
+
+    // remove outliers
+    const median = [...intervals].sort((a, b) => a - b)[Math.floor(intervals.length / 2)];
+    console.log(median, "median #####    ###  ##  ");
+    
+    console.log(median, "mediannnnn");
+
+    const clean = intervals.filter(i => i < 3 * median);
+    console.log(clean, "cleannnnnnnnnnn");
+    
+    if (clean.length < 5) return next();
+
+    const avg = clean.reduce((a, b) => a + b, 0) / clean.length;
+    console.log(avg, "AVG........................");
     
 
-    // calculate average interval
-    // reduce() is used to do calculation on numarical array and provide single output.
-    const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-
-    // check variance (how similar intervals are)
-    const variance = intervals.reduce((sum, val) => {
+    const variance = clean.reduce((sum, val) => {
         return sum + Math.pow(val - avg, 2);
-    }, 0) / intervals.length;
-    console.log(variance, "**VARIENCE**");
+    }, 0) / clean.length;
+    console.log(variance, "variance");
     
 
-    // BOT DETECTION CONDITION
-    if (variance < 70) {
+    const cv = Math.sqrt(variance) / avg;
+    console.log(cv, "CVVVVVVVVVVVVV");
+    
+    console.log("CV:", cv);
+
+    if (cv < 0.2) {
         return res.status(403).json({
-            error: "Bot detected (too consistent requests)"
+            error: "Bot detected"
         });
     }
 
