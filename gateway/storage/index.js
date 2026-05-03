@@ -5,3 +5,4 @@ const storage = new StorageManager(new MemoryAdapter());
 console.log("storage adaptor is working");
 
 module.exports = storage;
+
