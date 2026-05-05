@@ -5,7 +5,8 @@ const routesConfig = require('./config/rules.json');
 const rateLimiter = require('./middleware/rateLimiter')
 const auth = require('./middleware/auth');
 const quotaChecker = require('./middleware/quotaChecker');
-
+const logger = require('./middleware/logger');
+const matricsRoutes = require('./routes/matrics.routes')
 const app = express();
 const PORT = 3000;
 
@@ -24,7 +25,8 @@ app.use('/api', auth)
 app.use('/api', rateLimiter)
 app.use('/api', quotaChecker)
 // app.use('/api', anomalyDetector)
-
+app.use('/api', logger)
+app.use('/guardx', matricsRoutes)
 // Dynamic Proxy Logic (final endpoint lead to main port)
 routesConfig.routes.forEach(route => {
     console.log(`Loading route: ${route.path} -> ${route.target}`);
