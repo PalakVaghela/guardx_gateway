@@ -2,6 +2,7 @@ const matrics = require('../services/metricsEngine');
 
 module.exports = (req, res, next) => {
     const start = Date.now();
+    console.log("logger working........")
 
     res.on('finish', () => {
         const log = {
@@ -15,13 +16,16 @@ module.exports = (req, res, next) => {
 
         console.log("LOG:", log);
 
-        metrics.totalRequests()
-        metrics.trackIP(req.ip);
+        matrics.totalRequests()
+        matrics.trackIP(req.ip);
 
         if (res.statusCode >= 400) {
-            metrics.blockedRequests();
+            matrics.blockedRequests();
         }
+        matrics.trackRequestPerSecond()
     });
 
     next();
 };
+// middlewere is called on every req. so logger.js will called during /api hit also at that time it will call storage from this method. it ia used for write.
+// while when we hit /matrics at that time matrics.routes run and call storage from that method. this is used for read, when we hit the route to fetch the data.
