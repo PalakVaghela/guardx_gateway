@@ -1,8 +1,8 @@
 const store = require('../storage')
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     const key = req.storeKey;
-    const timestamps = store.get(key);
+    const timestamps = await store.get(key);
     const window = timestamps.slice(-20);
     console.log(key, "key   from   anomaly");
     

@@ -2,12 +2,12 @@ const storage = require('../storage');
 
 const RATE_WINDOW = 60 * 1000;
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     console.log("rate limiter is checkigggg");
     const key = `${req.apiKey}:${req.ip}`;
     req.storeKey = key;
 
-    const timestamps = storage.get(key) || [];
+    const timestamps = await storage.get(key) || [];
     const now = Date.now();
 
     const filtered = timestamps.filter(ts => now - ts < RATE_WINDOW);

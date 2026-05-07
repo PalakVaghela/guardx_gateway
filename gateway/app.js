@@ -16,19 +16,25 @@ app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} to ${req.url}`);
     next();
 });
+console.log("111");
+
 
 // Health Check, it just check that wather server is able to respond or not when get a req.
 app.get('/health', (req, res) => res.send('Gateway is health'));
+console.log("1222");
 
 // ratelimiter middlewere
 app.use('/api', auth)
 app.use('/api', rateLimiter)
+console.log("333");
 app.use('/api', quotaChecker)
 // app.use('/api', anomalyDetector)
 app.use('/api', logger)
 app.use('/guardx', matricsRoutes)
 // Dynamic Proxy Logic (final endpoint lead to main port)
 routesConfig.routes.forEach(route => {
+    console.log("nnnnnnnnnnnnnnnnnnnnooooooooooooooooooooooooooooo");
+    
     console.log(`Loading route: ${route.path} -> ${route.target}`);
     app.use(route.path, createProxyMiddleware({
         target: route.target,
