@@ -1,4 +1,4 @@
-const matrics = require('../services/metricsEngine');
+const metrics = require('../services/metricsEngine');
 
 module.exports = (req, res, next) => {
     const start = Date.now();
@@ -16,13 +16,13 @@ module.exports = (req, res, next) => {
 
         console.log("LOG:", log);
 
-        matrics.totalRequests()
-        matrics.trackIP(req.ip);
+        metrics.totalRequests()
+        metrics.trackIP(req.ip);
 
         if (res.statusCode >= 400) {
-            matrics.blockedRequests();
+            metrics.blockedRequests();
         }
-        matrics.trackRequestPerSecond()
+        metrics.trackRequestPerSecond()
     });
 
     next();
