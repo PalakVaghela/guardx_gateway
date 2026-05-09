@@ -18,7 +18,8 @@ module.exports = async (req, res, next) => {
     console.log(filtered, "arraaayyy");
     // o/p = [ 1778269547028 ] arraaayyy
 
-    storage.set(key, filtered);
+    await storage.set(key, filtered, RATE_WINDOW / 1000);
+    // it will leave in 60sec.
 
     const MAX_REQUESTS = req.user.plan === "pro" ? 20 : 100;
 
