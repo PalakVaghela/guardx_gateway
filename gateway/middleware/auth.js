@@ -30,6 +30,6 @@ module.exports = function auth(req, res, next) {
     req.user = user;
     req.apiKey = apiKey;
     console.log(req.user, "Userrrrrr", req.apiKey, "api keyyyyyyy")
-
+    // o/p: { plan: 'free' } Userrrrrr free-key api keyyyyyyy
     next();
 };

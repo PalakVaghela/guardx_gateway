@@ -6,7 +6,7 @@ module.exports = {
     totalRequests() {
         storage.increment('metrics:total');
     },
-
+    // we will give matrics:total key, and it will show values for metrics
     // when tere is any 404 error it will called
     blockedRequests() {
         storage.increment('metrics:blocked');
@@ -24,6 +24,7 @@ module.exports = {
         storage.increment(key);
     }
 };
+
 // we have add matrix engine and matrix route is used o check the logger.
 //  we have set different routes for both like for testing of internal data.
 // for debugge and testing we use /guardx/matrics and for extrnal traffice we will use /api.

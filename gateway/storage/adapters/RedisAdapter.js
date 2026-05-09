@@ -11,8 +11,15 @@ class RedisAdapter {
         return data ? JSON.parse(data) : null;
     }
 
-    async set(key, value) {
-        await this.client.set(key, JSON.stringify(value));
+    async set(key, value, ttl=null) {
+        // data =  JSON.stringify(value)
+        if (ttl){
+            await this.client.set(key, JSON.stringify(value), 'EX', ttl);
+            // EX means set expiration, this will tell redis that save this key and expire in ttl time, it will rub query internally and EX it in ttl time
+        }
+        else{
+            await this.client.set(key, JSON.stringify(value));
+        }
     }
 
     async increment(key) {

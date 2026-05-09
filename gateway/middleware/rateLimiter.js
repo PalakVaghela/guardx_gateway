@@ -6,12 +6,17 @@ module.exports = async (req, res, next) => {
     console.log("rate limiter is checkigggg");
     const key = `${req.apiKey}:${req.ip}`;
     req.storeKey = key;
+    console.log(key, "stkey");
+    // o/p = free-key:::ffff:127.0.0.1
 
     const timestamps = await storage.get(key) || [];
+    // it will give an array of timestamps
     const now = Date.now();
 
     const filtered = timestamps.filter(ts => now - ts < RATE_WINDOW);
     filtered.push(now);
+    console.log(filtered, "arraaayyy");
+    // o/p = [ 1778269547028 ] arraaayyy
 
     storage.set(key, filtered);
 

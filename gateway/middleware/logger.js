@@ -4,6 +4,7 @@ module.exports = (req, res, next) => {
     const start = Date.now();
     console.log("logger working........")
 
+    // it tell that return this with res, after whole res is sent to user.
     res.on('finish', () => {
         const log = {
             ip: req.ip,

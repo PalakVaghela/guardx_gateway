@@ -16,25 +16,20 @@ app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} to ${req.url}`);
     next();
 });
-console.log("111");
-
 
 // Health Check, it just check that wather server is able to respond or not when get a req.
 app.get('/health', (req, res) => res.send('Gateway is health'));
-console.log("1222");
 
 // ratelimiter middlewere
 app.use('/api', auth)
 app.use('/api', rateLimiter)
-console.log("333");
 app.use('/api', quotaChecker)
 // app.use('/api', anomalyDetector)
 app.use('/api', logger)
 app.use('/guardx', metricsRoutes)
+
 // Dynamic Proxy Logic (final endpoint lead to main port)
 routesConfig.routes.forEach(route => {
-    console.log("nnnnnnnnnnnnnnnnnnnnooooooooooooooooooooooooooooo");
-    
     console.log(`Loading route: ${route.path} -> ${route.target}`);
     app.use(route.path, createProxyMiddleware({
         target: route.target,
@@ -45,7 +40,14 @@ routesConfig.routes.forEach(route => {
 app.listen(PORT, () => {
     console.log(`🚀 GuardX Gateway routing traffic from :${PORT} to :5000`);
 });
+
 // here port 5000 is not rate limiter, it is main server that perform operation.
 // Here Port 3000 is guarex req, it check incoming- as middleware, check auth, check limit, quota, services, thereat score,etc
 // then go to main port 5000 , that will give res back to PORT 3000
 // 3000 will res to user, so like that user never direct communicate to main port 5000 for any req. it always req to guaredx not knowing it is real port.
+
+
+// in case of api gateway...
+// every req. go to specific server like to port 3000.
+// then after performning all middlewere in rules.json file we have differnt PORTS like for api/user go to 5001, for api/pyment go to 5002. that's how all will be seperated.
+// here we have use only 5000 but in real it happens like this ...
