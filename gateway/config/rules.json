@@ -4,5 +4,27 @@
       "path": "/api",
       "target": "http://localhost:5000"
     }
-  ]
+  ],
+  "plans": {
+    "free": {
+      "rateLimit": {
+        "limit": 100,
+        "window": 60,
+        "algorithm": "fixed"
+      },
+      "quota": {
+        "daily": 1000
+      }
+    },
+    "pro": {
+      "rateLimit": {
+        "limit": 500,
+        "window": 60,
+        "algorithm": "sliding"
+      },
+      "quota": {
+        "daily": 10000
+      }
+    }
+  }
 }

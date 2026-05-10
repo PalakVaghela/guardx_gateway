@@ -1,4 +1,5 @@
 // Simple version (no DB yet)
+const validKeys = require('../config/apiKeys');
 
 module.exports = function auth(req, res, next) {
     const apiKey = req.headers['x-api-key'];
@@ -11,10 +12,6 @@ module.exports = function auth(req, res, next) {
     }
 
     // TEMP: Hardcoded keys (later MongoDB)
-    const validKeys = {
-        "free-key": { plan: "free" },
-        "pro-key": { plan: "pro" }
-    };
 
     const user = validKeys[apiKey];
     // console.log(user, "user");

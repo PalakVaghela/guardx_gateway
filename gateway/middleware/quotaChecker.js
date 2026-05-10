@@ -1,8 +1,12 @@
 const storage = require('../storage');
+const rules = require('../config/rules.json')
 
 module.exports = async (req, res, next) => {
+    console.log("++++++++++++++++++++++++++++++++++++++++++");
+    
     const today = new Date().toISOString().split('T')[0];
     // it will fetch today's days from obj of current datetime
+    const plan = req.user?.plan;
     const key = `quota:${req.apiKey}:${today}`;
     // o/p : key = quota:free-key:2026-05-09
     const usage = await storage.increment(key);
@@ -10,7 +14,7 @@ module.exports = async (req, res, next) => {
     //    {
     //    "quota:free-key:2026-05-09": 2
     //   }
-    const limit = req.user.plan === "pro" ? 10000 : 10000;
+    const limit = rules.plans[plan].quota.daily;
 
     console.log(limit, "limit.....");
     console.log(usage, "current usage");
