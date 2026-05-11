@@ -19,6 +19,14 @@ class StorageManager {
     async increment(key) {
         return this.adapter.increment(key);
     }
+
+    async ttl(key) {
+        return this.adapter.ttl(key);
+    }
+
+    async expire(key, ttl) {
+        return this.adapter.expire(key, ttl);
+    }
 }
 
 module.exports = StorageManager;

@@ -29,6 +29,14 @@ class RedisAdapter {
     async delete(key) {
         await this.client.del(key);
     }
+
+    async ttl (key) {
+        return await this.client.ttl(key);
+    }
+
+    async expire(key, ttl) {
+        await this.client.expire(key, ttl);
+    }
 }
 
 module.exports = RedisAdapter;

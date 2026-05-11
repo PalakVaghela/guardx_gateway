@@ -1,32 +1,20 @@
 const storage = require('../storage');
 const rules = require('../config/rules.json');
+const rateLimitService = require('../services/rateLimit');
 
 module.exports = async (req, res, next) => {
     console.log("rate limiter is checkigggg");
     const key = `${req.apiKey}:${req.ip}`;
     req.storeKey = key;
     const config = rules.plans[req.user.plan];
-    const limit = config.rateLimit.limit;
-    const window = config.rateLimit.window;
+    const {limit, window, algorithm} = config.rateLimit;
     const quota = config.quota.daily;
     console.log(key, "stkey");
     // o/p = free-key:::ffff:127.0.0.1
 
-    const RATE_WINDOW = window * 1000; // convert to milliseconds
-    const timestamps = await storage.get(key) || [];
-    // it will give an array of timestamps
-    const now = Date.now();
+    const result = await rateLimitService[algorithm](key, limit, window);
 
-    const filtered = timestamps.filter(ts => now - ts < RATE_WINDOW);
-    filtered.push(now);
-    console.log(filtered, "arraaayyy");
-    // o/p = [ 1778269547028 ] arraaayyy
-
-    await storage.set(key, filtered, window);
-    // it will leave in 60sec.
-
-    const MAX_REQUESTS = limit
-    if (filtered.length > MAX_REQUESTS) {
+    if (!result.allowed) {
         return res.status(429).json({
             error: "Rate limit exceeded"
         });
