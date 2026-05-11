@@ -1,6 +1,7 @@
 const storage = require('../../storage');
 
 module.exports = async function slidingWindow(key, limit, window){
+    console.log("========= inside sliding window =========");
 
     const timestamps = await storage.get(key) || [];
     // it will give an array of timestamps

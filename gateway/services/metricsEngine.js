@@ -3,25 +3,27 @@ const storage = require('../storage');
 
 module.exports = {
     // no of req handle by it.
-    totalRequests() {
-        storage.increment('metrics:total');
+    async totalRequests() {
+        await storage.increment('metrics:total');
     },
     // we will give matrics:total key, and it will show values for metrics
     // when tere is any 404 error it will called
-    blockedRequests() {
-        storage.increment('metrics:blocked');
+    async lockedRequests() {
+        await storage.increment('metrics:blocked');
     },
 
-    trackIP(ip) {
-        storage.increment(`metrics:ip:${ip}`);
+    async trackIP(ip) {
+        await storage.increment(`metrics:ip:${ip}`);
     },
 
-    trackRequestPerSecond() {
+    async trackRequestPerSecond() {
         const now = Math.floor(Date.now() / 1000); // current second
         console.log(now, "now time::");
         const key = `metrics:rps:${now}`;
+        // metrics:rps:1778495222 will gice o/p like this.
         console.log(key, "key::::::::::");
-        storage.increment(key);
+        await storage.increment(key);
+        await storage.expire(key, 60); // keep data for 60 seconds
     }
 };
 

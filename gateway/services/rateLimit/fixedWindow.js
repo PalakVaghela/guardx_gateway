@@ -2,6 +2,8 @@ const storage = require('../../storage')
 
 
 module.exports = async function fixedWindow(key, limit, window) {
+    console.log("== inside fixed window ==");
+
     const counter = await storage.increment(key);
     const ttl = await storage.ttl(key);
 

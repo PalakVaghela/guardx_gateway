@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     console.log("logger working........")
 
     // it tell that return this with res, after whole res is sent to user.
-    res.on('finish', () => {
+    res.on('finish', async () => {
         const log = {
             ip: req.ip,
             apiKey: req.apiKey,
@@ -17,13 +17,13 @@ module.exports = (req, res, next) => {
 
         console.log("LOG:", log);
 
-        metrics.totalRequests()
-        metrics.trackIP(req.ip);
+        await metrics.totalRequests();
+        await metrics.trackIP(req.ip);
 
         if (res.statusCode >= 400) {
-            metrics.blockedRequests();
+            await metrics.blockedRequests();
         }
-        metrics.trackRequestPerSecond()
+        await metrics.trackRequestPerSecond()
     });
 
     next();

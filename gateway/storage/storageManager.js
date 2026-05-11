@@ -19,6 +19,7 @@ class StorageManager {
     async increment(key) {
         return this.adapter.increment(key);
     }
+    // it will take and key like metrics:rps:1778495222 and will save value of how many req. come like .. metrics:rps:1778495222 = 2, here we have 2 req.
 
     async ttl(key) {
         return this.adapter.ttl(key);
