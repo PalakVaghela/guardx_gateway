@@ -28,6 +28,14 @@ class StorageManager {
     async expire(key, ttl) {
         return this.adapter.expire(key, ttl);
     }
+
+    async zIncrement(key, score, member){
+        return this.adapter.zIncrement(key, score, member)
+    }
+
+    async zTop(key, start, end){
+        return this.adapter.zTop(key, start, end);
+    }
 }
 
 module.exports = StorageManager;

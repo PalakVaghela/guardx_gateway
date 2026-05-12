@@ -24,6 +24,12 @@ module.exports = {
         console.log(key, "key::::::::::");
         await storage.increment(key);
         await storage.expire(key, 60); // keep data for 60 seconds
+    },
+
+    async topIP(ip){
+        const key = 'metrics:top_ips';
+        await storage.zIncrement(key, 1, ip);
+        // syn in redis: ZINCRBY key increment member.. increment by 1 everytime req come
     }
 };
 

@@ -24,6 +24,8 @@ module.exports = (req, res, next) => {
             await metrics.blockedRequests();
         }
         await metrics.trackRequestPerSecond()
+
+        await metrics.topIP(req.ip);
     });
 
     next();

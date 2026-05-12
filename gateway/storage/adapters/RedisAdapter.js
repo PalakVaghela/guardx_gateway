@@ -35,7 +35,15 @@ class RedisAdapter {
     }
 
     async expire(key, ttl) {
-        await this.client.expire(key, ttl);
+        return await this.client.expire(key, ttl);
+    }
+
+    async zIncrement(key, score, member) {
+        return await this.client.zincrby(key, score, member)
+    }
+
+    async zTop(key, start, end) {
+        return await this.client.zrevrange(key, start, end, 'WITHSCORES')
     }
 }
 
@@ -43,3 +51,5 @@ module.exports = RedisAdapter;
 
 // redis only saves string that's why we have to use JSON.parse that will take json string like '{"name":"Palak"}' to JSON formate.
 // json.stringify convert json obj to  JSON-formatted string. revers to above
+// the zincrby is redis command, that is like ZINCRBY leaderboard 10 "user1" means take value for user "user1" and increment ny specific number. so, wheever re. come score will increase.
+// zrevrange is used to give key 0 2 "withscore" means 0,1,2 = total 3 users's name withscore in descend. order.

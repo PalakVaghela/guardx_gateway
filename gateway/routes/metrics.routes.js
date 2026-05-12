@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const storage = require('../storage');
 
-router.get('/metrics/overview', async (req, res) => {
+router.get('/overview', async (req, res) => {
     console.log(express, "expppppp");
     const total = await storage.get('metrics:total');
     const blocked = await storage.get('metrics:blocked');
@@ -12,7 +12,7 @@ router.get('/metrics/overview', async (req, res) => {
     });
 });
 
-router.get('/metrics/rps', async (req, res) => {
+router.get('/rps', async (req, res) => {
     const now = Math.floor(Date.now() / 1000);
     let data = [];
 
@@ -30,6 +30,13 @@ router.get('/metrics/rps', async (req, res) => {
         })
     }
     res.json(data);
+})
+
+router.get('/top_ips', async (req, res) => {
+    const ips = await storage.zTop('metrics:top_ips', 0, 9) //top 10 ips which is doing most traffic. it will give top_ips when req. for it.
+    console.log("top ipsssssssss,", ips);
+
+    res.json({ ips })
 })
 
 module.exports = router;
