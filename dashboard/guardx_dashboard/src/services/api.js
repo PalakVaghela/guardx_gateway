@@ -25,6 +25,6 @@ export async function getIps() {
     await fetch(
     `${BASE}/top_ips`
     )
-
-  return await res.json();
+  const data = await res.json()
+  return data;
 }

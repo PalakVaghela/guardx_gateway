@@ -1,0 +1,121 @@
+/* App.css */
+:root {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --border: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #6366f1;
+  --danger: #f43f5e;
+  --success: #10b981;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.dashboard-wrapper {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: flex-end; /* Aligns the Live Feed to the bottom of the title text */
+  margin-bottom: 3rem;   /* Increased space below header */
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border); /* Adds a nice subtle separator */
+  gap: 20px; /* Prevents text from touching on smaller screens */
+}
+
+.refresh-tag {
+  background: rgba(16, 185, 129, 0.1); /* Subtle green background bubble */
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: var(--success);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap; /* Prevents "LIVE FEED" from breaking into two lines */
+}
+
+/* Card Grid */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: transform 0.2s;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+}
+
+.metric-card p {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.metric-card h2 {
+  font-size: 2.2rem;
+  margin: 0.5rem 0 0 0;
+}
+
+/* Chart Section */
+.chart-section {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+/* Table Section */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+th {
+  text-align: left;
+  background: #33415566;
+  padding: 1rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+td {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+tr:hover {
+  background: #ffffff05;
+}
