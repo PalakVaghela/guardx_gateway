@@ -7,11 +7,13 @@ const auth = require('./middleware/auth');
 const quotaChecker = require('./middleware/quotaChecker');
 const logger = require('./middleware/logger');
 const metricsRoutes = require('./routes/metrics.routes')
+const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
 // Middleware Pipeline starts here
 // app.use will work on all req, not just on specific path.
+app.use(cors())
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} to ${req.url}`);
     next();
