@@ -41,6 +41,14 @@ function App () {
     return () => clearInterval(interval)
   }, [])
 
+  const total = matrics.total || 0;
+  const blocked = matrics.blocked || 0;
+
+  // Calculate percentage: ((Total - Blocked) / Total) * 100
+  const successRate = total > 0
+    ? (((total - blocked) / total) * 100).toFixed(1)
+    : "100.0";
+
   return (
     <div className="dashboard-wrapper">
       <header>
@@ -65,12 +73,12 @@ function App () {
           <h2 style={{ color: 'var(--danger)' }}>{matrics.blocked.toLocaleString()}</h2>
         </div>
 
-        {/* <div className="metric-card">
+        <div className="metric-card">
           <p>System Health</p>
           <h2 style={{ color: successRate > 95 ? 'var(--success)' : 'orange' }}>
             {successRate}%
           </h2>
-        </div> */}
+        </div>
       </div>
 
       {/* Chart Section */}

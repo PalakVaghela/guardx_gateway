@@ -8,7 +8,7 @@ module.exports = {
     },
     // we will give matrics:total key, and it will show values for metrics
     // when tere is any 404 error it will called
-    async lockedRequests() {
+    async blockedRequests() {
         await storage.increment('metrics:blocked');
     },
 

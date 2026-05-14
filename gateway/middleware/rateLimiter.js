@@ -1,6 +1,7 @@
 const storage = require('../storage');
 const rules = require('../config/rules.json');
 const rateLimitService = require('../services/rateLimit');
+const metricsEngine = require('../services/metricsEngine')
 
 module.exports = async (req, res, next) => {
     console.log("rate limiter is checkigggg");
@@ -15,6 +16,7 @@ module.exports = async (req, res, next) => {
     const result = await rateLimitService[algorithm](key, limit, window);
 
     if (!result.allowed) {
+        await metricsEngine.blockedRequests();
         return res.status(429).json({
             error: "Rate limit exceeded"
         });

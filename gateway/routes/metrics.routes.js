@@ -3,7 +3,6 @@ const router = express.Router();
 const storage = require('../storage');
 
 router.get('/overview', async (req, res) => {
-    console.log(express, "expppppp");
     const total = await storage.get('metrics:total');
     const blocked = await storage.get('metrics:blocked');
     res.json({
