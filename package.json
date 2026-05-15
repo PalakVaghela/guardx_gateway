@@ -1,9 +1,24 @@
 {
+
+  "name": "guardx",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "Redis-backed API gateway with rate limiting and observability dashboard",
+
   "dependencies": {
     "axios": "^1.16.1",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "http-proxy-middleware": "^3.0.5",
     "ioredis": "^5.10.1"
-  }
+  },
+
+  "keywords": [
+    "api-gateway",
+    "rate-limiter",
+    "redis",
+    "express",
+    "observability"
+  ]
+
 }
