@@ -37,6 +37,7 @@ module.exports = {
 //  we have set different routes for both like for testing of internal data.
 // for debugge and testing we use /guardx/matrics and for extrnal traffice we will use /api.
 
+
 // trackRequestPerSecond() is used to fetch the traffic per second. that how many req. come in second. Date.now() will give current time in ms.
 // so suppose it will give 1714656005123 - ms. we will convert it into sec. and then for example is reqs. come on same sec. and if ms is diff only then it will get same key:value will be there
 // if we got req. at a same sec it will have same key: and will update the count. like if ms only diff and sec is same for some continues request. for key it will save count(count will for every key but increase only when reqest are coming at same seconds)
